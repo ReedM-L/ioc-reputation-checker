@@ -20,12 +20,16 @@ def check_ip_abuseipdb(ip: str):
 
     headers = {
         'Accept': 'application/json',
-        'Key': os.environment.get("ABUSEIPDB_API_KEY")
+        'Key': os.environ.get("ABUSEIPDB_API_KEY")
     }
     
-    response = requests.request(method='GET', url=url, headers=headers, params=querystring)
+    response = requests.request(method='GET', url=url, headers=headers, params=query_string)
 
-def validate_addr(user_ip):
+    data = response.json()
+
+    print(data)
+
+def validate_addr(user_ip: str):
     #use ipaddress() to check if the user input is a valid address, catch the ValueError if not
     valid_status = False
 
@@ -44,9 +48,8 @@ def main():
     while valid_status != True:
         user_ip = input("Enter the IP to check: ")  
         valid_status = validate_addr(user_ip)
-    
-    
 
+    check_ip_abuseipdb(user_ip)
 
 if __name__ == "__main__":
     main()
